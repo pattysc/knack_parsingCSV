@@ -4,7 +4,8 @@ Program to parse a CSV file, and analyze the data to predict a schema.
 Clone this repo and run 
 
 
-```$ node index.js 
+```
+$ node index.js 
 $ npm install  
 $ node index.js 
 ```
