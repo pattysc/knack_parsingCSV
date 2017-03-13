@@ -1,4 +1,20 @@
-function findMultipleChoice(array){
+var Column = require('./Column')
+
+exports.makeColumns = function(headers, columns){
+  headers.forEach( function(header){
+    if (header.length > 0){
+      columns.push( new Column(`${header}`) )
+    }
+  })
+}
+
+exports.addData = function(data, columns){
+  for(var i = 0; i < columns.length; i++){
+    columns[i].data.push(data[`${columns[i].name}`])
+  }
+}
+
+exports.findMultipleChoice = function(array){
   array.map((column) => {
     var uniqueData = column.data.filter(function(elem, i) {
       if(elem.length > 0){
@@ -12,27 +28,22 @@ function findMultipleChoice(array){
     }
   })
 }
-//
-// function findDateAndText(array){
-//   array.map( (column) => {
-//     if(column.type.length == 0){
-//       var dates = column.data.filter( (value) => {
-//         if(Date.parse(value)){
-//           return value
-//         }
-//       })
-//
-//       if(dates.length > column.data.length/2){
-//         column.type = 'Date/Time'
-//       }
-//       else{
-//         column.type = 'Text'
-//       }
-//     }
-//   })
-// }
 
+exports.findDateAndText = function(array){
+  array.map( (column) => {
+    if(column.type.length == 0){
+      var dates = column.data.filter( (value) => {
+        if(Date.parse(value)){
+          return value
+        }
+      })
 
-// module.exports = {findMultipleChoice: findMultipleChoice, findDateAndText: findDateAndText}
-// module.exports = findDateAndText
-module.exports = findMultipleChoice
+      if(dates.length > column.data.length/2){
+        column.type = 'Date/Time'
+      }
+      else{
+        column.type = 'Text'
+      }
+    }
+  })
+}

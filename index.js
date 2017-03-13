@@ -1,31 +1,19 @@
-const fs = require('fs')
-const Column = require('./Column')
-const findMultipleChoice = require('./dataHelpers')
+var fs = require('fs')
+var Column = require('./Column')
+var helpers = require('./dataHelpers')
 var csv = require('csv-parser')
 
-let columns = []
+var columns = []
 
-//fetch the headers from CSV file
-var fetchingHeaders = function(){
+//create a Column per header read on the CSV file
+var createColumns = function(){
   var promise = new Promise(function(resolve, reject){
     fs.createReadStream('test-contacts.csv')
     .pipe(csv())
     .on('headers', function(headerList){
-      resolve(headerList)
+      helpers.makeColumns(headerList, columns)
+      resolve(columns)
     })
-  })
-  return promise
-}
-
-//make a Column per header
-var makingColumns = function(headers){
-  var promise = new Promise(function(resolve, reject){
-    headers.forEach( function(header){
-      if (header.length > 0){
-        columns.push( new Column(`${header}`) )
-      }
-    })
-    resolve(columns)
   })
   return promise
 }
@@ -36,9 +24,7 @@ var addingData = function(columns){
     fs.createReadStream('test-contacts.csv')
     .pipe(csv())
     .on('data', function(data){
-      for(var i = 0; i < columns.length; i++){
-        columns[i].data.push(data[`${columns[i].name}`])
-      }
+      helpers.addData(data, columns)
       resolve(columns)
     })
   })
@@ -48,7 +34,7 @@ var addingData = function(columns){
 //find the MC columns
 var findMultipleChoiceColumns = function(columns){
   var promise = new Promise(function(resolve, reject){
-    findMultipleChoice(Column.all)
+    helpers.findMultipleChoice(Column.all)
     resolve(columns)
   })
   return promise
@@ -57,39 +43,18 @@ var findMultipleChoiceColumns = function(columns){
 // look through remaining columns' data and see if they have / or :
 var findDateColumns = function(columns){
   var promise = new Promise(function(resolve, reject){
-    // findDateAndText(Column.all)
-    Column.all.forEach( (column) => {
-      if(column.type.length == 0){
-        var dates = column.data.filter( (value) => {
-          if(Date.parse(value)){
-            return value
-          }
-        })
-
-        if(dates.length > column.data.length/2){
-          column.type = 'Date/Time'
-        }
-        else{
-          column.type = 'Text'
-        }
-      }
-    })
+    helpers.findDateAndText(Column.all)
     resolve(columns)
   })
   return promise
 }
 
-
 //show what the schema will look like
 var showSchema = function(columns){
-  var promise = new Promise(function(resolve, reject){
-    console.log(Column.schema());
-  })
-  return promise
+  console.log(Column.schema());
 }
 
-fetchingHeaders()
-.then(makingColumns)
+createColumns()
 .then(addingData)
 .then(findMultipleChoiceColumns)
 .then(findDateColumns)
