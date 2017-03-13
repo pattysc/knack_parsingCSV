@@ -6,9 +6,7 @@ Clone this repo and run
 
 <code>
   $ node index.js 
-  
   $ npm install  
-  
   $ node index.js 
 </code>
 
