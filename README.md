@@ -14,5 +14,5 @@ It will output a blueprint for what the schema for the CSV file should look like
 Tests can be run by running
 
 ```
-npm test
+$ npm test
 ```
