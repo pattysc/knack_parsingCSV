@@ -19,7 +19,7 @@ var createColumns = function(){
 }
 
 //add data to each Column instance
-var addingData = function(columns){
+var addData = function(columns){
   var promise = new Promise(function(resolve, reject){
     fs.createReadStream('test-contacts.csv')
     .pipe(csv())
@@ -40,8 +40,8 @@ var findMultipleChoiceColumns = function(columns){
   return promise
 }
 
-// look through remaining columns' data and see if they have / or :
-var findDateColumns = function(columns){
+// find the columns with date data and change its type. the remaining are set to text.
+var findDateAndTextColumns = function(columns){
   var promise = new Promise(function(resolve, reject){
     helpers.findDateAndText(Column.all)
     resolve(columns)
@@ -55,7 +55,7 @@ var showSchema = function(columns){
 }
 
 createColumns()
-.then(addingData)
+.then(addData)
 .then(findMultipleChoiceColumns)
-.then(findDateColumns)
+.then(findDateAndTextColumns)
 .then(showSchema)
