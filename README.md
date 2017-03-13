@@ -5,13 +5,11 @@ Clone this repo and run
 
 
 <code>
-  $ node index.js <br>
+  $ node index.js 
   
+  $ npm install  
   
-  $ npm install <br> 
-  
-  
-  $ node index.js <br>
+  $ node index.js 
 </code>
 
 It will output a blueprint for what the schema for the CSV file should look like. 
