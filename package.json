@@ -1,0 +1,28 @@
+{
+  "name": "knack_pattysantacruz",
+  "version": "1.0.0",
+  "description": "CSV parser and schema predicter ",
+  "main": "index.js",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "csv-parser": "^1.11.0",
+    "fs": "^0.0.1-security",
+    "jasmine": "^2.5.3"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pattysc/knack_parsingCSV.git"
+  },
+  "author": "pattysc",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pattysc/knack_parsingCSV/issues"
+  },
+  "homepage": "https://github.com/pattysc/knack_parsingCSV#readme"
+}

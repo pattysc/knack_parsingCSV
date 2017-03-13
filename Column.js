@@ -16,6 +16,7 @@ Column.schema = function(){
       return {columnName: col.name, columnType: col.type}
     }
   })
+
 }
 Column.all = []
 
