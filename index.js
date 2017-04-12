@@ -28,8 +28,12 @@ var addData = function(columns){
     fs.createReadStream('test-contacts.csv')
     .pipe(csv())
     .on('data', function(data){
-      helpers.addData(data, columns)
+      if(data != null){
+        helpers.addData(data, columns)
         resolve(columns)
+      }else{
+        reject(Error("Parsing CSV file data failed"))
+      }
     })
   })
 }
@@ -56,7 +60,7 @@ var showSchema = function(columns){
 }
 
 createColumns()
-.then(addData).catch( (err) => {console.log(err)} )
+.then(addData)
 .then(findMultipleChoiceColumns)
 .then(findDateAndTextColumns)
-.then(showSchema)
+.then(showSchema).catch( (err) => {console.log(err)} )
